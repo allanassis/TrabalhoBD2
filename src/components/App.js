@@ -1,12 +1,16 @@
 import React, { Component } from "react";
 import "./App.css";
 import ThumbPreview from "./ThumbPreview";
+import ListGrid from "./ListGrid";
 class App extends Component {
   render() {
     let texto =
       "Hello World Hello World Hello World Hello WorldHello WorldHello World Hello World";
+    let arr = [texto, texto, texto, texto];
     return (
-      <ThumbPreview style={{ maxWidth: 200, maxHeight: 250 }} text={texto} />
+      <div>
+        <ListGrid data={arr} />
+      </div>
     );
   }
 }
