@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import "./App.css";
-import ThumbPreview from "./ThumbPreview";
+import { Button } from "@material-ui/core";
+import { Link } from "react-router-dom";
+
 import ListGrid from "./ListGrid";
 class App extends Component {
   render() {
@@ -9,6 +11,9 @@ class App extends Component {
     let arr = [texto, texto, texto, texto];
     return (
       <div>
+        <Link to="/add">
+          <Button>add</Button>
+        </Link>
         <ListGrid data={arr} />
       </div>
     );
