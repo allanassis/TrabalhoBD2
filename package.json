@@ -1,8 +1,10 @@
 {
   "name": "trabalhaobd2",
   "version": "0.1.0",
+  "homepage": "https://allanassis.github.io/trabalho-bd2",
   "private": true,
   "dependencies": {
+    "gh-pages": "^1.2.0",
     "@material-ui/core": "^3.1.2",
     "draft-js": "^0.10.5",
     "immutable": "^3.8.2",
@@ -17,7 +19,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
