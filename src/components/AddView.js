@@ -1,43 +1,47 @@
 import React, { Component } from "react";
-import "./App.css";
 import { Link } from "react-router-dom";
-import { Button } from "@material-ui/core";
-import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
-import { Editor } from "react-draft-wysiwyg";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+
+import { Button, TextField, Snackbar, SnackbarContent, CloseIcon, IconButton, Icon } from "@material-ui/core";
+
+import { MegadraftEditor, editorStateFromRaw, editorStateToJSON } from "megadraft";
+
+import { URL_SERVICE, headers, initialState } from "../Config"
+
+require('megadraft/dist/css/megadraft.css');
+
 
 class AddView extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      editorState: EditorState.createEmpty()
-    };
-    this.onEditorStateChange = this.onEditorStateChange.bind(this);
+
+    this.state = { editorState: editorStateFromRaw(initialState), title: "" };
+
     this.onClickSave = this.onClickSave.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.onChangeTitle = this.onChangeTitle.bind(this);
   }
 
-  componentDidMount() {
-    const content = window.localStorage.getItem("content");
-    if (content) {
-      this.setState({
-        editorState: EditorState.createWithContent(
-          convertFromRaw(JSON.parse(content))
-        )
-      });
-    } else {
-      this.setState({
-        editorState: EditorState.createEmpty()
-      });
-    }
+  onChange(editorState) {
+    this.setState({ editorState });
+  }
+
+  onChangeTitle(event) {
+    this.setState({
+      title: event.target.value
+    })
   }
 
   onClickSave() {
-    const contentState = convertToRaw(
-      this.state.editorState.getCurrentContent()
-    );
-    if (contentState) {
-      window.localStorage.setItem("content", JSON.stringify(contentState));
-    }
+    const { title, editorState } = this.state
+    let data = JSON.stringify({ title, content: editorStateToJSON(editorState) })
+
+    fetch(URL_SERVICE, { method: "POST", body: data, headers }).then(resp => {
+      if (resp.ok) {
+        alert('succes')
+      } else {
+        alert('ruim')
+      }
+    })
   }
 
   onEditorStateChange(editorState) {
@@ -47,17 +51,22 @@ class AddView extends Component {
   }
 
   render() {
-    const { editorState } = this.state;
     return (
-      <div style={{ width: 500, margin: "auto" }}>
-        <Link to="/">xback</Link>
-        <Button onClick={this.onClickSave}>SAVE</Button>
-        <Editor
-          editorState={editorState}
-          wrapperClassName="demo-wrapper"
-          editorClassName="demo-editor"
-          onEditorStateChange={this.onEditorStateChange}
-        />
+      <div style={{ width: 500, margin: "auto", padding: 50 }}>
+        <div style={{ display: "flex", justifyContent: "space-around", margin: 50 }}>
+          <Button variant="outlined" ><Link to="/" style={{ textDecoration: 'none', color: "black" }}>BACK</Link></Button>
+          <TextField
+            required
+            label="Title"
+            defaultValue="Title"
+            variant="outlined"
+            onChange={this.onChangeTitle}
+          />
+          <Button variant="outlined" onClick={this.onClickSave}>SAVE</Button>
+        </div>
+        <MegadraftEditor
+          editorState={this.state.editorState}
+          onChange={this.onChange} />
       </div>
     );
   }
