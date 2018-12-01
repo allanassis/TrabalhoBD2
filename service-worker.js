@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/trabalho-bd2/precache-manifest.a4dcf985338bc5d5bd0a8dfcf97c1937.js"
+  "/TrabalhoBD2/precache-manifest.f7bff783bb4a61d89ca0c07c7990463c.js"
 );
 
 workbox.clientsClaim();
@@ -28,7 +28,7 @@ self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
-workbox.routing.registerNavigationRoute("/trabalho-bd2/index.html", {
+workbox.routing.registerNavigationRoute("/TrabalhoBD2/index.html", {
   
   blacklist: [/^\/_/,/\/[^\/]+\.[^\/]+$/],
 });
